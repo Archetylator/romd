@@ -1,0 +1,15 @@
+@import "reset";
+
+@import "@material/button/mdc-button";
+@import "@material/icon-button/mdc-icon-button";
+@import "@material/ripple/mdc-ripple";
+@import "@material/textfield/mdc-text-field";
+@import "@material/card/mdc-card";
+@import "@material/top-app-bar/mdc-top-app-bar";
+
+
+#main-navbar {
+  @include mdc-top-app-bar-fill-color(white);
+  @include mdc-top-app-bar-ink-color(black);
+  @include mdc-top-app-bar-icon-ink-color(black);
+}
