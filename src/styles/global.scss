@@ -6,10 +6,18 @@
 @import "@material/textfield/mdc-text-field";
 @import "@material/card/mdc-card";
 @import "@material/top-app-bar/mdc-top-app-bar";
+@import "@material/layout-grid/mdc-layout-grid";
+@import "@material/linear-progress/mdc-linear-progress";
 
+@import url('https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i&display=swap');
 
 #main-navbar {
   @include mdc-top-app-bar-fill-color(white);
   @include mdc-top-app-bar-ink-color(black);
   @include mdc-top-app-bar-icon-ink-color(black);
+}
+
+body {
+  background: whitesmoke;
+  font-family: 'Roboto';
 }
