@@ -1,7 +1,16 @@
+<script>
+import { onMount } from 'svelte';
+
+let pageComponent;
+
+onMount(async () => {
+  const module = await import('../pages/About.svelte');
+  pageComponent = module.default;
+});
+</script>
+
 <svelte:head>
-	<title>About</title>
+  <title>Romani Dictionary</title>
 </svelte:head>
 
-<h1>About this site</h1>
-
-<p>This is the 'about' page. There's not much here.</p>
+<svelte:component this={pageComponent} />

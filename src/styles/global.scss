@@ -1,13 +1,20 @@
 @import "reset";
 
-@import "@material/button/mdc-button";
+// @import "@material/button/mdc-button";
 @import "@material/icon-button/mdc-icon-button";
-@import "@material/ripple/mdc-ripple";
+// @import "@material/ripple/mdc-ripple";
 @import "@material/textfield/mdc-text-field";
 @import "@material/card/mdc-card";
 @import "@material/top-app-bar/mdc-top-app-bar";
 @import "@material/layout-grid/mdc-layout-grid";
 @import "@material/linear-progress/mdc-linear-progress";
+@import "@material/chips/mdc-chips";
+@import "@material/drawer/mdc-drawer";
+@import "@material/list/mdc-list";
+@import "@material/menu-surface/mdc-menu-surface";
+@import "@material/menu/mdc-menu";
+@import "@material/dialog/mdc-dialog";
+@import "@material/checkbox/mdc-checkbox";
 
 @import url('https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i&display=swap');
 
@@ -20,4 +27,12 @@
 body {
   background: whitesmoke;
   font-family: 'Roboto';
+}
+
+html, body, main, #sapper {
+  width: 100%;
+}
+
+.pageWrapper {
+  padding: 80px 20px 20px;
 }

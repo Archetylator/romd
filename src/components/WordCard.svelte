@@ -1,7 +1,9 @@
 <script>
 import { onMount, createEventDispatcher } from 'svelte';
-
+import { _ } from 'svelte-i18n'
+import { wordType, genderType, wordTense } from '../utils/word'
 export let word;
+export let language;
 
 onMount(() => {
 
@@ -11,7 +13,9 @@ onMount(() => {
 
 <style>
   .word {
-    width: 250px;
+    max-width: 800px;
+    width: 100%;
+    margin-bottom: 20px;
   }
 
   .mdc-card-content {
@@ -19,10 +23,10 @@ onMount(() => {
   }  
 
   .title-box {
-    height: 30px;
     display: flex;
     align-items: center;
-    padding: 15px;
+    padding: 15px 15px 5px;
+    justify-content: space-between;
   }
 
   .word-name {
@@ -31,8 +35,46 @@ onMount(() => {
     text-transform: uppercase;
   }
 
+dl {
+  display: flex;
+  flex-flow: row;
+  flex-wrap: wrap;
+  width: 300px;      /* set the container width*/
+  overflow: visible;
+  font-size: 15px;
+}
+dl dt {
+  flex: 0 0 50%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  font-weight: 500;
+}
+dl dd {
+  flex:0 0 50%;
+  margin-left: auto;
+  text-align: left;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
   .word-info {
-    padding: 15px;
+    padding: 0 15px 15px;
+  }
+
+  .word-attr {
+    text-transform: uppercase;
+    font-size: 12px;
+  }
+
+  .word-lang {
+    padding: 5px 7px;
+    background: cornflowerblue;
+    color: #fff;
+    font-size: 14px;
+  }
+
+  .word-numbers {
+    padding: 15px 0 0 0;
   }
 </style>
 
@@ -42,14 +84,22 @@ onMount(() => {
       <h3 class="word-name">
         {word.singular}
       </h3>
-      <span>rzeczowinik</span>
+      <span class="word-lang">{ $_(language.name) }</span>
     </div>
-      
     <div class="word-info">
-      <ul>
-        <li>l. poj. {word.singular}</li>
-        <li>l. mn. {word.plural}</li>
-      </ul>
+      <span class="word-attr">
+        { $_(wordType[word.kind]) } /
+      </span>
+      <span class="word-attr">
+        { $_(genderType[word.gender]) }
+      </span>
+
+      <dl class="word-numbers">
+        <dt>{$_('singular')}</dt>
+        <dd>{ word.singular }</dd>
+        <dt>{$_('plural')}</dt>
+        <dd>{ word.plural }</dd>
+      </dl>
     </div>
   </div>
 </div>

@@ -12,4 +12,4 @@ onMount(() => {
 
 <button bind:this={element} class="foo-button mdc-button mdc-ripple-surface">
   Button
-</button>
+</button> 

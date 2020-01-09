@@ -8,9 +8,19 @@ const SveltePreprocess = require('svelte-preprocess');
 const mode = process.env.NODE_ENV;
 const dev = mode === 'development';
 
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+
 const alias = { svelte: path.resolve('node_modules', 'svelte') };
 const extensions = ['.mjs', '.js', '.json', '.svelte', '.html'];
 const mainFields = ['svelte', 'module', 'browser', 'main'];
+
+const sassOptions = {
+  includePaths: [
+    './theme',
+    './node_modules',
+  ]
+};
 
 const preprocess = SveltePreprocess({
   scss: {
@@ -41,6 +51,20 @@ module.exports = {
 						}
 					}
 				},
+				{
+					test: /\.(sa|sc|c)ss$/,
+					use: [
+						'style-loader',
+						MiniCssExtractPlugin.loader,
+						'css-loader',
+						{
+							loader: 'sass-loader',
+							options: {
+								sassOptions
+							},
+						},
+					],
+				}
 			]
 		},
 		mode,
@@ -51,6 +75,18 @@ module.exports = {
 				'process.browser': true,
 				'process.env.NODE_ENV': JSON.stringify(mode)
 			}),
+			new MiniCssExtractPlugin({
+				filename: '[name].css',
+				chunkFilename: '[name].[id].css',
+			}),
+			new OptimizeCssAssetsPlugin({
+				assetNameRegExp: /\.css$/g,
+				cssProcessor: require('cssnano'),
+				cssProcessorPluginOptions: {
+					preset: ['default', { discardComments: { removeAll: true } }],
+				},
+				canPrint: true
+			})
 		].filter(Boolean),
 		devtool: dev && 'inline-source-map'
 	},
@@ -75,10 +111,38 @@ module.exports = {
 							preprocess
 						}
 					}
+				},
+				{
+					test: /\.(sa|sc|c)ss$/,
+					use: [
+						'style-loader',
+						MiniCssExtractPlugin.loader,
+						'css-loader',
+						{
+							loader: 'sass-loader',
+							options: {
+								sassOptions
+							},
+						},
+					],
 				}
 			]
 		},
 		mode: process.env.NODE_ENV,
+		plugins: [
+			new MiniCssExtractPlugin({
+				filename: '[name].css',
+				chunkFilename: '[name].[id].css',
+			}),
+			new OptimizeCssAssetsPlugin({
+				assetNameRegExp: /\.css$/g,
+				cssProcessor: require('cssnano'),
+				cssProcessorPluginOptions: {
+					preset: ['default', { discardComments: { removeAll: true } }],
+				},
+				canPrint: true
+			})
+		].filter(Boolean),
 		performance: {
 			hints: false // it doesn't matter if server.js is large
 		}
