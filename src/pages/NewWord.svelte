@@ -2,7 +2,6 @@
 import { onMount } from 'svelte'
 import { _ } from 'svelte-i18n'
 import { dictionaryDB } from '../db/dictionary'
-import { translateDB } from '../db/translate'
 import WordForm from '../components/WordForm'
 import Button, {Label} from '@smui/button';
 import Paper, {Title, Subtitle, Content} from '@smui/paper';
@@ -11,28 +10,28 @@ function handleCancel() {
   window.location.href = '/admin'
 }
 
-function handleSave() {
-  if ( form.checkValidity() ) {
-    dictionaryDB.post({
-      singular: singular,
-      plural: plural,
-      kind: type,
-      gender: gender,
-      languageID: language,
-      description: desc
-    }).then(function (response) {
-      let array = translations.map((t) => {
-        return { one: response.id, two: t.value }
+function handleSave(event) {
+  let params = event.detail
+
+  dictionaryDB.post({
+    singular: params.singular,
+    plural: params.plural,
+    kind: params.type,
+    gender: params.gender,
+    languageID: params.language,
+    description: params.desc,
+    translatesTo: params.translatesTo
+  }).then(function (response) {
+    params.translatesTo.forEach((relatedDocId) => {
+      dictionaryDB.get(relatedDocId).then(function (relatedDoc) {
+        relatedDoc.translatesTo.push(response.id)
+        return dictionaryDB.put(relatedDoc)
       })
-      translateDB.bulkDocs(
-        array
-      ).then(function (r) {
-        window.location.href = '/admin'
-      })
-    }).catch(function (err) {
-      console.log(err);
     })
-  }
+    window.location.href = '/admin'
+  }).catch(function (err) {
+    console.log(err);
+  })
 }
 </script>
 

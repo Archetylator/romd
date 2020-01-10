@@ -1,25 +1,27 @@
 <script context="module">
-	import { dictionaryDB } from '../../../db/dictionary'
+  import { dictionaryDB } from '../../../db/dictionary'
 
-	export async function preload({ params, query }) {
-		const doc = await dictionaryDB.get(params.slug)
-		return { word: doc }
-	}
+  export async function preload({ params, query }) {
+    let word = await dictionaryDB.get(params.slug)
+    console.log(word)
+    return { word: await word }
+  }
 </script>
 
 <script>
-import { onMount } from 'svelte'
-import { _ } from 'svelte-i18n'
+import { onMount } from 'svelte';
 
-export let word;
+let pageComponent
+export let word
+
+onMount(async () => {
+  const module = await import('../../../pages/EditWord.svelte');
+  pageComponent = module.default;
+});
 </script>
 
-<style>
-</style>
-
 <svelte:head>
-	<title>{word.singular}</title>
+  <title></title>
 </svelte:head>
 
-<h1>{word.singular}</h1>
-
+<svelte:component this={pageComponent} {word}/>

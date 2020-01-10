@@ -11,7 +11,6 @@ import { wordType, genderType, wordTense } from '../utils/word'
 import Dialog, {Title, Content, Actions} from '@smui/dialog';
 import Button, {Label} from '@smui/button';
 import { dictionaryDB } from '../db/dictionary'
-import { translateDB } from '../db/translate'
 import { languageDB } from '../db/language'
 
 import { MDCLinearProgress } from '@material/linear-progress';
@@ -75,48 +74,33 @@ function search() {
     }
 
     foundWords.docs.forEach((word) => {
-      if (word._id) {
-        translateDB.find({
-          selector: {
-            "$or": [
-              { two: word._id },
-              { one: word._id }
-            ]
-          },
-          fields: ['one', 'two']
-        }).then((trans) => {
-          trans.docs.forEach(function(translate) {
-            let q = {"_id": (word._id == translate.one ? translate.two : translate.one )}
+      let q = {}
 
-            if (selectedLanguages.length > 0) {
-              q["languageID"] = { "$in": selectedLanguages }
-            }
+      q["translatesTo"] = { "$elemMatch": word._id }
 
-            if (selectedTypes.length > 0) {
-              q["kind"] = { "$in": selectedTypes }
-            }
-
-            query.push(q)
-          })
-        }).then(() => {
-          dictionaryDB.find({
-            selector: 
-            {
-              "$or": query
-            },
-            fields: ['_id', 'singular', 'plural', 'kind', 'gender', 'languageID'],
-          })
-          .then(function (result) {
-            clearTimeout(timeout)
-            loading = false
-            words = result.docs
-          })
-        })
-      } else {
-        clearTimeout(timeout)
-        loading = false
+      if (selectedLanguages.length > 0) {
+        q["languageID"] = { "$in": selectedLanguages }
       }
+
+      if (selectedTypes.length > 0) {
+        q["kind"] = { "$in": selectedTypes }
+      }
+
+      query.push(q)
     })
+   
+    dictionaryDB.find({
+      selector: 
+      {
+        "$or": query
+      },
+      fields: ['_id', 'singular', 'plural', 'kind', 'gender', 'languageID'],
+    })
+    .then(function (result) {
+      clearTimeout(timeout)
+      loading = false
+      words = result.docs
+    })   
   })
 }
 

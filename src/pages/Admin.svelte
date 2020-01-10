@@ -15,7 +15,6 @@ import { wordType, genderType, wordTense } from '../utils/word'
 import Dialog, {Title, Content, Actions} from '@smui/dialog';
 import Button, {Label} from '@smui/button';
 import { dictionaryDB } from '../db/dictionary'
-import {translateDB} from '../db/translate'
 import {languageDB} from '../db/language'
 import { MDCLinearProgress } from '@material/linear-progress';
 
@@ -50,7 +49,14 @@ let words = []
 
 function handleDelete(id) {
   dictionaryDB.get(id).then(function (doc) {
-    dictionaryDB.remove(doc)
+    dictionaryDB.remove(doc).then(() => {
+      doc.translatesTo.forEach((relatedDocId) => {
+        dictionaryDB.get(relatedDocId).then(function (relatedDoc) {
+          relatedDoc.translatesTo = relatedDoc.translatesTo.filter(e => e !== doc._id)
+          return dictionaryDB.put(relatedDoc)
+        })
+      })
+    })
     words = words.filter(function(doc) {
       if (doc.id == id) {
         return false

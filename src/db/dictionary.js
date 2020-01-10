@@ -21,15 +21,13 @@ function loadOptionsForSearchSelect(filterText) {
       },
       fields: ['_id', 'singular']
     }).then((foundWords) => {
-      let words = []
-
-      foundWords.docs.forEach((word) => {
-        words.push({ value: word._id, label: word.singular })
-      })
-
-      resolve(words)
+      resolve(foundWords.docs)
     }) 
   });
 }
 
-export { dictionaryDB, loadOptionsForSearchSelect }
+async function getWord(id) {
+  return await dictionaryDB.get(id)
+}
+
+export { dictionaryDB, loadOptionsForSearchSelect, getWord }
