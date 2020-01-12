@@ -35,14 +35,10 @@ function handleSave(event) {
 }
 </script>
 
-<svelte:head>
-  <title>New Word</title>
-</svelte:head>
-
 <div class="pageWrapper">
   <Paper>
-    <Title>Word Form</Title>
-    <Subtitle>Here you can create new words.</Subtitle>
+    <Title>{$_('new_word_title')}</Title>
+    <Subtitle>{$_('new_word_subtitle')}</Subtitle>
     <Content>
       <WordForm on:cancel={handleCancel} on:save={handleSave}/>
     </Content>

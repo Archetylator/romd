@@ -54,8 +54,8 @@ function handleSave(event) {
 
 <div class="pageWrapper">
   <Paper>
-    <Title>Edit Form</Title>
-    <Subtitle>Here you can edit a word.</Subtitle>
+    <Title>{$_('new_word_title')}</Title>
+    <Subtitle>{$_('edit_word_subtitle')}</Subtitle>
     <Content>
       <WordForm
         language={word.languageID}

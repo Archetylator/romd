@@ -47,16 +47,22 @@ onMount(() => {
         <i class="material-icons mdc-list-item__graphic" aria-hidden="true">search</i>
         <span class="mdc-list-item__text">{$_('search')}</span>
       </a>
-<!--       <a class="mdc-list-item" class:mdc-list-item--activated='{segment === "all_words"}' href="all_words">
-        <i class="material-icons mdc-list-item__graphic">archive</i>
-        <span class="mdc-list-item__text">{$_('all_words')}</span>
-      </a> -->
     </nav>
     <hr class="mdc-list-divider">
     <a class="mdc-list-item" class:mdc-list-item--activated='{segment === "about"}' href="about" on:click={() => {drawer.open = false }}>
       <i class="material-icons mdc-list-item__graphic" aria-hidden="true">info</i>
       <span class="mdc-list-item__text">{$_('about')}</span>
     </a>
+    {#if localStorage.getItem('username') }
+      <a class="mdc-list-item" class:mdc-list-item--activated='{segment === "admin"}' href="about" on:click={() => {drawer.open = false }}>
+        <i class="material-icons mdc-list-item__graphic" aria-hidden="true">build</i>
+        <span class="mdc-list-item__text">{$_('admin')}</span>
+      </a>
+    {/if}
+
+<!--     <div style="position: absolute; bottom: 0; padding: 15px 15px;">
+      <small style="font-size: 12px">copyright © 2020 | Version 1.0</small>
+    </div> -->
   </div>
 </aside>
 
@@ -70,9 +76,11 @@ onMount(() => {
     </section>
     <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end" role="toolbar">
       <div class="mdc-menu-surface--anchor">
-        <button class="material-icons mdc-top-app-bar__action-item mdc-icon-button" aria-label="Bookmark this page" on:click={ menu.open = !menu.open }>
-          
-        </button>
+        {#if segment === 'admin'}
+          <a class="mdc-top-app-bar__action-item mdc-icon-button" href="/words/new">
+            <i class="material-icons">add</i>
+          </a>
+        {/if}
         <div class="mdc-menu mdc-menu-surface">
           <ul class="mdc-list" role="menu" aria-hidden="true" aria-orientation="vertical" tabindex="-1">
             <li class="mdc-list-item" role="menuitem">

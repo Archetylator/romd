@@ -2,7 +2,19 @@
 import { onMount } from 'svelte';
 import { _ } from 'svelte-i18n'
 import Paper, {Title, Subtitle, Content} from '@smui/paper';
-</script> 
+
+import { dictionaryDB, loadOptionsForSearchSelect, getWord, logIn, logOut } from '../db/dictionary'
+
+let error
+
+function handleLogIn(username, password) {
+  logIn(username, password).then(() => {
+    window.location.href = '/admin'
+  }).catch(() => {
+    
+  })
+}
+</script>
 
 <style>
 
@@ -13,11 +25,7 @@ import Paper, {Title, Subtitle, Content} from '@smui/paper';
     <Title>{ $_('about_title') }</Title>
     <Subtitle>{ $_('about_subtitle') }</Subtitle>
     <Content>
-      <p>{ $_('about_p') }</p>
-
-      <h5>{ $_('about_privacy_title') }</h5>
-      <p>{ $_('about_privacy') }</p>
-      <a href="login">{$_('login')}</a>
+      
     </Content>
   </Paper>
 </div>

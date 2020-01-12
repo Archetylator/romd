@@ -7,16 +7,18 @@ import DataTable, {Head, Body, Row, Cell} from '@smui/data-table'
 import TextField from '../components/TextField.svelte'
 import WordCard from '../components/WordCard.svelte'
 import Modal from '../components/Modal.svelte'
-import List, {Item, Text} from '@smui/list'
+import List, {Item, Graphic, Meta, Text, PrimaryText, SecondaryText, Separator} from '@smui/list';
 import PouchDB from 'pouchdb'
 import PouchFind from 'pouchdb-find'
 import PouchAuth from 'pouchdb-authentication'
 import { wordType, genderType, wordTense } from '../utils/word'
-import Dialog, {Title, Content, Actions} from '@smui/dialog';
+
 import Button, {Label} from '@smui/button';
 import { dictionaryDB } from '../db/dictionary'
 import {languageDB} from '../db/language'
 import { MDCLinearProgress } from '@material/linear-progress';
+
+import Paper, {Title, Subtitle, Content} from '@smui/paper';
 
 let progressbar
 let progressbarElement
@@ -76,42 +78,47 @@ onMount(() => {
     padding: 80px 20px 0;
   }
 
-  .mdc-data-table {
-    width: 100%;
+  .index {
+    border: 1px solid rgba(0,0,0,.12);
+  }
+
+  .index li {
+    border-bottom: 1px solid;
+  }
+
+  .icon {
+    margin-left: 3px;
+    color: rgba(0,0,0,.38);
+  }
+
+  .icon i {
+    font-size: 21px;
   }
 </style>
 
 <div class="wrapper">
-  <div>
-    <a href="/words/new">
-      <Button>
-        <Label>New Word</Label>
-      </Button>
-    </a>
-  </div>
-  <DataTable table$aria-label="Words">
-    <Head>
-      <Row>
-        <Cell>Name</Cell>
-        <Cell>Type</Cell>
-        <Cell>Language</Cell>
-        <Cell></Cell>
-      </Row>
-    </Head>
-    <Body>
-      {#each words as word }
-        {#if word.doc.singular}
-          <Row>
-            <Cell>{ word.doc.singular }</Cell>
-            <Cell>{ $_(wordType[word.doc.kind]) }</Cell>
-            <Cell>{ $_(languages[word.doc.languageID] || '') }</Cell>
-            <Cell>
-              <a href="/words/edit/{ word.doc._id }"><i class="material-icons mdc-list-item__graphic" aria-hidden="true">edit</i></a>
-              <a href="" on:click|preventDefault={() => { handleDelete(word.doc._id) } }><i class="material-icons mdc-list-item__graphic" aria-hidden="true">delete</i></a>
-            </Cell>
-          </Row>
-        {/if}
-      {/each}
-    </Body>
-  </DataTable>
+  <Paper>
+    <Title>{ $_('admin_index') }</Title>
+    <Subtitle></Subtitle>
+    <Content>
+      <List class="index" twoLine nonInteractive>
+        {#each words as word }
+          <Item>
+            <Text>
+              <PrimaryText>{ word.doc.singular }</PrimaryText>
+              <SecondaryText>{ $_(languages[word.doc.languageID] || '') } / { $_(wordType[word.doc.kind]) }</SecondaryText>
+            </Text>
+            <Meta>
+              <a class="icon" href="/words/edit/{ word.doc._id }">
+                <i class="material-icons">edit</i>
+              </a>
+              <a class="icon" href="" on:click|preventDefault={() => { handleDelete(word.doc._id) } }>
+                <i class="material-icons">delete</i>
+              </a>
+            </Meta>
+          </Item>
+        {/each}
+      </List>
+    </Content>
+  </Paper>
 </div>

@@ -3,9 +3,7 @@ import { COUCHDB_URL } from '../constants'
 
 const dictionaryDB = new PouchDB('dictionary')
 const dictionaryRemoteDB = new PouchDB(COUCHDB_URL + '/dictionary')
-// dictionary.replicate.from(dictionaryRemoteDB)
 
-dictionaryRemoteDB.logIn('admin', 'password')
 dictionaryDB.sync(dictionaryRemoteDB)
 
 function loadOptionsForSearchSelect(filterText) {
@@ -26,8 +24,24 @@ function loadOptionsForSearchSelect(filterText) {
   });
 }
 
+async function logIn(username, password) {
+  return await dictionaryDB.logIn(username, password).then(response => {
+    if (response.name) {
+      sessionStorage.setItem('username', username)
+    }
+  }).catch(e => {
+    console.log(e);
+  });
+};
+
+async function logOut() {
+  return await  dictionaryRemoteDB.logOut().then(response => {
+    sessionStorage.removeItem('username')
+  })
+}
+
 async function getWord(id) {
   return await dictionaryDB.get(id)
 }
 
-export { dictionaryDB, loadOptionsForSearchSelect, getWord }
+export { dictionaryDB, loadOptionsForSearchSelect, getWord, logIn, logOut }

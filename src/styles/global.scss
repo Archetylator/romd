@@ -36,3 +36,19 @@ html, body, main, #sapper {
 .pageWrapper {
   padding: 80px 20px 20px;
 }
+
+.selectContainer {
+  padding: 0px 52px 4px 16px !important;
+  border: 0 !important;
+  background: #f5f5f5 !important;
+  border-radius: 4px 4px 0 0 !important;
+  border-bottom: 1px solid rgba(0,0,0,.42) !important;
+
+  &.focused {
+    border-color: #6200ee !important;
+  }
+}
+
+.fullwidth {
+  width: 100%
+}

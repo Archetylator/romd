@@ -159,7 +159,7 @@ onMount(() => {
       <Item>
         <FormField>
           <Checkbox value={language.doc._id} bind:group={selectedLanguagesTmp}/>
-          <span slot="label">{language.doc.name}</span>
+          <span slot="label">{$_(language.doc.name)}</span>
         </FormField>
       </Item>
     {/each}
@@ -167,10 +167,10 @@ onMount(() => {
   </Content>
   <Actions>
     <Button>
-      <Label>Cancel</Label>
+      <Label>{$_("cancel")}</Label>
     </Button>
     <Button on:click={() => { selectedLanguages = selectedLanguagesTmp.slice(); search() }}>
-      <Label>Filter</Label>
+      <Label>{$_("filter")}</Label>
     </Button>
   </Actions>
 </Dialog>
@@ -183,7 +183,7 @@ onMount(() => {
       <div>
         <FormField>
           <Checkbox value={t[0]} bind:group={selectedTypesTmp}/>
-          <span slot="label">{t[1]}</span>
+          <span slot="label">{ $_(t[1]) }</span>
         </FormField>
       </div>
     {/each}
@@ -191,10 +191,10 @@ onMount(() => {
   </Content>
   <Actions>
     <Button>
-      <Label>Close</Label>
+      <Label>{$_("cancel")}</Label>
     </Button>
     <Button on:click={() => { selectedTypes = selectedTypesTmp.slice(); search() }}>
-      <Label>Filter</Label>
+      <Label>{$_("filter")}</Label>
     </Button>
   </Actions>
 </Dialog>
@@ -210,11 +210,11 @@ onMount(() => {
           {#if selectedLanguages.length > 0} 
             <span role="button" tabindex="0" class="mdc-chip__text word-type">
             {#each selectedLanguages as languageID }
-              { languages.find(item => item.doc._id === languageID).doc.name + " "}
+              { $_(languages.find(item => item.doc._id === languageID).doc.name) + " " }
             {/each}
           </span>
           {:else}
-            <span role="button" tabindex="0" class="mdc-chip__text">Języki</span>
+            <span role="button" tabindex="0" class="mdc-chip__text">{ $_("language") }</span>
           {/if}
         </span>
       </div>  
@@ -226,11 +226,11 @@ onMount(() => {
           {#if selectedTypes.length > 0} 
             <span role="button" tabindex="0" class="mdc-chip__text word-type">
               {#each selectedTypes as typeID }
-                { wordType[typeID] + " " }
+                { $_(wordType[typeID]) + " " }
               {/each}
             </span>
           {:else}
-            <span role="button" tabindex="0" class="mdc-chip__text">Część mowy</span>
+            <span role="button" tabindex="0" class="mdc-chip__text">{$_("kind")}</span>
           {/if}
         </span>
       </div> 
@@ -254,8 +254,8 @@ onMount(() => {
 
   {#if words.length == 0}
     <div class="empty">
-      <h5>No results so far</h5>
-      <p>Please use the search bar for words finding</p>
+      <h5>{ $_('no_results') }</h5>
+      <p>{ $_('no_results_p') }</p>
     </div>
   {:else}
 
