@@ -1,6 +1,20 @@
 {
   "app_name": "Romani Dictionary",
-  "search": "Search",
+  "kind": "word type",
+  "translates_to": "translates to",
   "all_words": "All words",
-  "about": "About"
+  "new_word_title": "Add a new word",
+  "new_word_subtitle": "Fill the form",
+  "edit_word_title": "Edit existing word",
+  "edit_word_subtitle": "Fill the form",
+  "login_title": "Sign in",
+  "login_p": "Please fill fields with your credentials",
+  "about_title": "Romani language dictionary",
+  "about_subtitle": "Multi-dialect",
+  "about_p": "Free dictionary",
+  "about_privacy_title": "Privacy Policy",
+  "about_privacy": "We do not collect any information about you. Logging function is available only for creators of this site.",
+  "admin_index": "All words",
+  "no_results": "No results",
+  "no_results_p": "Please use the search bar for finding the word."
 }

@@ -1,6 +1,6 @@
 import PouchDB from './database'
 import { COUCHDB_URL } from '../constants'
-
+import { getCookie } from '../utils/cookies'
 const dictionaryDB = new PouchDB('dictionary')
 const dictionaryRemoteDB = new PouchDB(COUCHDB_URL + '/dictionary')
 
@@ -25,19 +25,11 @@ function loadOptionsForSearchSelect(filterText) {
 }
 
 async function logIn(username, password) {
-  return await dictionaryDB.logIn(username, password).then(response => {
-    if (response.name) {
-      sessionStorage.setItem('username', username)
-    }
-  }).catch(e => {
-    console.log(e);
-  });
+  return await dictionaryRemoteDB.logIn(username, password)
 };
 
 async function logOut() {
-  return await  dictionaryRemoteDB.logOut().then(response => {
-    sessionStorage.removeItem('username')
-  })
+  return await dictionaryRemoteDB.logOut()
 }
 
 async function getWord(id) {

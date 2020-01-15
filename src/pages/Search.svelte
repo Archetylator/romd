@@ -34,7 +34,7 @@ languageDB.allDocs({
 })
 
 let loading = false
-let query;
+let query
 
 let words = []
 

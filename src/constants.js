@@ -1,1 +1,1 @@
-export const COUCHDB_URL = 'http://localhost:5984/'
+export const COUCHDB_URL = 'https://couchdb.auxiliary.software'

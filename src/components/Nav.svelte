@@ -3,14 +3,16 @@ import { onMount } from 'svelte'
 import { _ } from 'svelte-i18n'
 import {MDCTopAppBar} from '@material/top-app-bar'
 export let segment
-
+import { getCookie } from '../utils/cookies'
 import {MDCList} from "@material/list";
 import {MDCDrawer} from "@material/drawer";
 import {MDCMenu} from '@material/menu';
+import { logOut } from '../db/dictionary'
 
 let element;
 let drawer;
 let menu;
+let storageLocal
 
 onMount(() => {
 	const topAppBar = new MDCTopAppBar(element)
@@ -19,6 +21,12 @@ onMount(() => {
   menu = new MDCMenu(document.querySelector('.mdc-menu'));
 })
 
+
+function logout() {
+  logOut().then(() => {
+    window.location.href = '/'
+  })
+}
 </script>
 
 <style>
@@ -53,16 +61,18 @@ onMount(() => {
       <i class="material-icons mdc-list-item__graphic" aria-hidden="true">info</i>
       <span class="mdc-list-item__text">{$_('about')}</span>
     </a>
-    {#if localStorage.getItem('username') }
+    {#if false }
       <a class="mdc-list-item" class:mdc-list-item--activated='{segment === "admin"}' href="about" on:click={() => {drawer.open = false }}>
         <i class="material-icons mdc-list-item__graphic" aria-hidden="true">build</i>
         <span class="mdc-list-item__text">{$_('admin')}</span>
       </a>
     {/if}
-
-<!--     <div style="position: absolute; bottom: 0; padding: 15px 15px;">
-      <small style="font-size: 12px">copyright © 2020 | Version 1.0</small>
-    </div> -->
+    
+    {#if false }
+      <div style="position: absolute; bottom: 0; padding: 15px 15px;">
+        <small style="font-size: 12px" on:click={logout}>Logout {getCookie('username')}</small>
+      </div>
+    {/if}
   </div>
 </aside>
 
@@ -71,7 +81,7 @@ onMount(() => {
 <header id="main-navbar" class="mdc-top-app-bar mdc-top-app-bar--fixed" bind:this={element}>
   <div class="mdc-top-app-bar__row">
     <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
-      <button class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button" on:click={ drawer.open = !drawer.open }>menu</button>
+      <button class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button" on:click={ () => { drawer.open = !drawer.open } }>menu</button>
       <span class="mdc-top-app-bar__title">{ segment ? $_(segment) : $_('search') }</span>
     </section>
     <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end" role="toolbar">
