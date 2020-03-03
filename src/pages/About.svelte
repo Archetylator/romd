@@ -17,7 +17,6 @@ import Paper, {Title, Subtitle, Content} from '@smui/paper';
 
       <h5>{ $_('about_privacy_title') }</h5>
       <p>{ $_('about_privacy') }</p>
-      <a href="login">{$_('login')}</a>
     </Content>
   </Paper>
 </div>

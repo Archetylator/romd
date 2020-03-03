@@ -32,8 +32,13 @@ async function logOut() {
   return await dictionaryRemoteDB.logOut()
 }
 
+async function getCurrentUser() {
+  let response =  await dictionaryRemoteDB.getSession()
+  return !response.userCtx.name ? false : response.userCtx
+}
+
 async function getWord(id) {
   return await dictionaryDB.get(id)
 }
 
-export { dictionaryDB, loadOptionsForSearchSelect, getWord, logIn, logOut }
+export { dictionaryDB, loadOptionsForSearchSelect, getWord, logIn, logOut, getCurrentUser }

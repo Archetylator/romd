@@ -17,10 +17,6 @@ function onCancel() {
 
 function onSave() {
   logIn(username, password).then(() => {
-    if (process.browser) {
-      setCookie('username', username)
-    }
-
     window.location.href = '/admin'
   }).catch((e) => {
     error = e.message

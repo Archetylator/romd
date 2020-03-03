@@ -7,15 +7,17 @@ import { getCookie } from '../utils/cookies'
 import {MDCList} from "@material/list";
 import {MDCDrawer} from "@material/drawer";
 import {MDCMenu} from '@material/menu';
-import { logOut } from '../db/dictionary'
+import { logOut, getCurrentUser } from '../db/dictionary'
 
 let element;
 let drawer;
 let menu;
 let storageLocal
+let currentUser
 
-onMount(() => {
+onMount(async () => {
 	const topAppBar = new MDCTopAppBar(element)
+  currentUser = await getCurrentUser()
   MDCList.attachTo(document.querySelector('.mdc-list'));
   drawer = MDCDrawer.attachTo(document.querySelector('.mdc-drawer'));
   menu = new MDCMenu(document.querySelector('.mdc-menu'));
@@ -57,20 +59,27 @@ function logout() {
       </a>
     </nav>
     <hr class="mdc-list-divider">
+
     <a class="mdc-list-item" class:mdc-list-item--activated='{segment === "about"}' href="about" on:click={() => {drawer.open = false }}>
       <i class="material-icons mdc-list-item__graphic" aria-hidden="true">info</i>
       <span class="mdc-list-item__text">{$_('about')}</span>
     </a>
-    {#if false }
-      <a class="mdc-list-item" class:mdc-list-item--activated='{segment === "admin"}' href="about" on:click={() => {drawer.open = false }}>
+
+    {#if currentUser }
+      <a class="mdc-list-item" class:mdc-list-item--activated='{segment === "admin"}' href="admin" on:click={() => {drawer.open = false }}>
         <i class="material-icons mdc-list-item__graphic" aria-hidden="true">build</i>
         <span class="mdc-list-item__text">{$_('admin')}</span>
       </a>
+    {:else }
+      <a class="mdc-list-item" class:mdc-list-item--activated='{segment === "login"}' href="login" on:click={() => {drawer.open = false }}>
+        <i class="material-icons mdc-list-item__graphic" aria-hidden="true">supervised_user_circle</i>
+        <span class="mdc-list-item__text">{$_('login')}</span>
+      </a>
     {/if}
     
-    {#if false }
+    {#if currentUser }
       <div style="position: absolute; bottom: 0; padding: 15px 15px;">
-        <small style="font-size: 12px" on:click={logout}>Logout {getCookie('username')}</small>
+        <small style="font-size: 13px">Hello {currentUser.name}! <a style="color: blue; cursor: pointer;" on:click={logout}>Logout</a></small>
       </div>
     {/if}
   </div>
