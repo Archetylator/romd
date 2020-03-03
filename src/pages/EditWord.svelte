@@ -5,11 +5,11 @@ import { dictionaryDB } from '../db/dictionary'
 import WordForm from '../components/WordForm'
 import Button, {Label} from '@smui/button';
 import Paper, {Title, Subtitle, Content} from '@smui/paper';
-
+import { goto } from '@sapper/app';
 export let word
 
 function handleCancel() {
-  window.location.href = '/admin'
+  goto('/admin')
 }
 
 function handleSave(event) {
@@ -46,7 +46,7 @@ function handleSave(event) {
         })
       })
 
-      window.location.href = '/admin'
+      goto('/admin')
     })
   })
 }

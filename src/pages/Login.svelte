@@ -1,6 +1,7 @@
 <script>
 import { onMount } from 'svelte';
 import { _ } from 'svelte-i18n'
+import { goto } from '@sapper/app';
 import Paper, {Title, Subtitle, Content} from '@smui/paper';
 import Textfield from '@smui/textfield'
 import Button, {Label} from '@smui/button';
@@ -12,12 +13,12 @@ let username = ''
 let password = ''
 
 function onCancel() {
-  window.location.href = '/'
+  goto('/');
 }
 
 function onSave() {
   logIn(username, password).then(() => {
-    window.location.href = '/admin'
+    goto('/admin')
   }).catch((e) => {
     error = e.message
   })

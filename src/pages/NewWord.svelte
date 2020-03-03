@@ -5,9 +5,9 @@ import { dictionaryDB } from '../db/dictionary'
 import WordForm from '../components/WordForm'
 import Button, {Label} from '@smui/button';
 import Paper, {Title, Subtitle, Content} from '@smui/paper';
-
+import { goto } from '@sapper/app';
 function handleCancel() {
-  window.location.href = '/admin'
+  goto('/admin')
 }
 
 function handleSave(event) {
@@ -28,7 +28,7 @@ function handleSave(event) {
         return dictionaryDB.put(relatedDoc)
       })
     })
-    window.location.href = '/admin'
+    goto('/admin')
   }).catch(function (err) {
     console.log(err);
   })

@@ -8,6 +8,7 @@ import {MDCList} from "@material/list";
 import {MDCDrawer} from "@material/drawer";
 import {MDCMenu} from '@material/menu';
 import { logOut, getCurrentUser } from '../db/dictionary'
+import { goto } from '@sapper/app';
 
 let element;
 let drawer;
@@ -26,7 +27,7 @@ onMount(async () => {
 
 function logout() {
   logOut().then(() => {
-    window.location.href = '/'
+    goto('/')
   })
 }
 </script>
