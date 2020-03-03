@@ -103,20 +103,22 @@ onMount(() => {
     <Content>
       <List class="index" twoLine nonInteractive>
         {#each words as word }
-          <Item>
-            <Text>
-              <PrimaryText>{ word.doc.singular }</PrimaryText>
-              <SecondaryText>{ $_(languages[word.doc.languageID] || '') } / { $_(wordType[word.doc.kind]) }</SecondaryText>
-            </Text>
-            <Meta>
-              <a class="icon" href="/words/edit/{ word.doc._id }">
-                <i class="material-icons">edit</i>
-              </a>
-              <a class="icon" href="" on:click|preventDefault={() => { handleDelete(word.doc._id) } }>
-                <i class="material-icons">delete</i>
-              </a>
-            </Meta>
-          </Item>
+          {#if word.doc.singular !== undefined }
+            <Item>
+              <Text>
+                <PrimaryText>{ word.doc.singular }</PrimaryText>
+                <SecondaryText>{ $_(languages[word.doc.languageID] || '') } / { $_(wordType[word.doc.kind]) }</SecondaryText>
+              </Text>
+              <Meta>
+                <a class="icon" href="/words/edit/{ word.doc._id }">
+                  <i class="material-icons">edit</i>
+                </a>
+                <a class="icon" href="" on:click|preventDefault={() => { handleDelete(word.doc._id) } }>
+                  <i class="material-icons">delete</i>
+                </a>
+              </Meta>
+            </Item>
+          {/if}
         {/each}
       </List>
     </Content>
