@@ -12,7 +12,6 @@ import PouchDB from 'pouchdb'
 import PouchFind from 'pouchdb-find'
 import PouchAuth from 'pouchdb-authentication'
 import { wordType, genderType, wordTense } from '../utils/word'
-
 import Button, {Label} from '@smui/button';
 import { dictionaryDB } from '../db/dictionary'
 import {languageDB} from '../db/language'
@@ -69,7 +68,6 @@ function handleDelete(id) {
 }
 
 onMount(() => {
-  
 })
 </script>
 

@@ -14,11 +14,11 @@ let element;
 let drawer;
 let menu;
 let storageLocal
-let currentUser
+
+export let currentUser
 
 onMount(async () => {
 	const topAppBar = new MDCTopAppBar(element)
-  currentUser = await getCurrentUser()
   MDCList.attachTo(document.querySelector('.mdc-list'));
   drawer = MDCDrawer.attachTo(document.querySelector('.mdc-drawer'));
   menu = new MDCMenu(document.querySelector('.mdc-menu'));
@@ -27,6 +27,8 @@ onMount(async () => {
 
 function logout() {
   logOut().then(() => {
+    currentUser = null
+    drawer.open = false
     goto('/')
   })
 }
@@ -54,25 +56,25 @@ function logout() {
   </div>
   <div class="mdc-drawer__content">
     <nav class="mdc-list">
-      <a class="mdc-list-item" class:mdc-list-item--activated='{segment === undefined}' href="." on:click={() => {drawer.open = false }}>
+      <a rel=prefetch class="mdc-list-item" class:mdc-list-item--activated='{segment === undefined}' href="." on:click={() => {drawer.open = false }}>
         <i class="material-icons mdc-list-item__graphic" aria-hidden="true">search</i>
         <span class="mdc-list-item__text">{$_('search')}</span>
       </a>
     </nav>
     <hr class="mdc-list-divider">
 
-    <a class="mdc-list-item" class:mdc-list-item--activated='{segment === "about"}' href="about" on:click={() => {drawer.open = false }}>
+    <a rel=prefetch class="mdc-list-item" class:mdc-list-item--activated='{segment === "about"}' href="about" on:click={() => {drawer.open = false }}>
       <i class="material-icons mdc-list-item__graphic" aria-hidden="true">info</i>
       <span class="mdc-list-item__text">{$_('about')}</span>
     </a>
 
     {#if currentUser }
-      <a class="mdc-list-item" class:mdc-list-item--activated='{segment === "admin"}' href="admin" on:click={() => {drawer.open = false }}>
+      <a rel=prefetch class="mdc-list-item" class:mdc-list-item--activated='{segment === "admin"}' href="admin" on:click={() => {drawer.open = false }}>
         <i class="material-icons mdc-list-item__graphic" aria-hidden="true">build</i>
         <span class="mdc-list-item__text">{$_('admin')}</span>
       </a>
     {:else }
-      <a class="mdc-list-item" class:mdc-list-item--activated='{segment === "login"}' href="login" on:click={() => {drawer.open = false }}>
+      <a rel=prefetch class="mdc-list-item" class:mdc-list-item--activated='{segment === "login"}' href="login" on:click={() => {drawer.open = false }}>
         <i class="material-icons mdc-list-item__graphic" aria-hidden="true">supervised_user_circle</i>
         <span class="mdc-list-item__text">{$_('login')}</span>
       </a>

@@ -1,23 +1,31 @@
 <script context="module">
   import '../i18n'
   import { waitLocale } from 'svelte-i18n'
+  import { getCurrentUser } from '../db/dictionary'
 
   export async function preload() {
-    // awaits for the loading of the 'en-US' and 'en' dictionaries
-    return waitLocale()
+    let currentUser = await getCurrentUser()
+    return {waitLocale, currentUser}
   }
 </script>
 
 <script>
-	import Nav from '../components/Nav.svelte';
-	export let segment;
+	import Nav from '../components/Nav.svelte'
+  import { onMount } from 'svelte'
+
+	export let segment
+  export let currentUser
+
+  onMount(async () => {
+    let currentUser = await getCurrentUser()
+  })
 </script>
 
 <style lang="scss" global>
-  @import "./styles/global.scss";
+  @import "./styles/global.scss"
 </style>
 
-<Nav {segment}/>
+<Nav {segment} {currentUser} />
 
 <main>
 	<slot></slot>
